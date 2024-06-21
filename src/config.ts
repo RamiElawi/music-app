@@ -19,8 +19,8 @@ export const  config ={
         endPoints:['auth/resetPassword','auth/verifiedEmail']
     },
     OAuthGoogle:{
-        GOOGLE_CLIENT_ID:'918916773749-1cii9abmg8p7dbcpk6lkfq970alc5egh.apps.googleusercontent.com',
-        GOOGLE_CLIENT_SECRET:'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',
+        GOOGLE_CLIENT_ID:'',
+        GOOGLE_CLIENT_SECRET:'',
         CALL_BACK_URL:'http://localhost:3000/api/auth/google/callback',
         SCOPE:['email','profile']
     },
