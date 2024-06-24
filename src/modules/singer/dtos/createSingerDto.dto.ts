@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsString } from 'class-validator';
 import { artistType } from 'src/common/enums/artist.enum';
 import { gender } from 'src/common/enums/gender.enum';
+import { FileUploadDto } from './fileUploadDto.dto';
 // 
 export class CreateSingerDto{
     @ApiProperty({
@@ -25,7 +26,9 @@ export class CreateSingerDto{
     type:artistType;
     @ApiProperty({
         description:"the singer gender",
-        example:gender.MALE
+        // example:gender.MALE,
+        enum:gender,
+        name:'gender'
     })
     @IsEnum(gender,{message:"the gender should be from this enum"})
     gender:gender;
@@ -35,4 +38,9 @@ export class CreateSingerDto{
     })
     @IsString({message:'the nationality should be string'})
     nationality:string   
+    @ApiProperty({
+        type:'string',
+        format:'binary'
+    })
+    image:FileUploadDto
 }

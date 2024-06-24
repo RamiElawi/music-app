@@ -4,8 +4,10 @@ import { User } from '../auth/entities/user.entity';
 import { PlaylistDto } from './dto/playlistDto.dto';
 import { updatePlayListDto } from './dto/updatePlaylistDto.dto';
 import { PlaylistService } from './playlist.service';
+import {ApiTags} from '@nestjs/swagger'
 
 @Controller('playlist')
+@ApiTags('playlist')
 export class PlaylistController {
     constructor(
         private readonly playlistService:PlaylistService

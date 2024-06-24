@@ -14,7 +14,6 @@ export class FacebookStrategy extends PassportStrategy(Strategy,'facebook'){
             callbackURL:config.OAuthFacebook.CALL_BACK_URL,
             passReqToCallback:true,
             scope:config.OAuthFacebook.SCOPE
-
         })
     }
 

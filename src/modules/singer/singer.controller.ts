@@ -1,6 +1,6 @@
 import { Controller ,Get ,Post ,Put ,Delete ,Param ,Query ,Body ,Patch, UseInterceptors, UploadedFile, UseGuards} from '@nestjs/common';
 import { SingerService } from './singer.service';
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags, ApiConsumes} from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags, ApiConsumes, ApiBody} from '@nestjs/swagger';
 import { CreateSingerDto } from './dtos/createSingerDto.dto';
 import { Singer } from './entities/singer.entity';
 import { artistType } from 'src/common/enums/artist.enum';
@@ -13,32 +13,36 @@ import {diskStorage} from 'multer'
 import { AuthorizeRoles } from 'src/common/decorators/authorize-role.decorator';
 import { role } from 'src/common/enums/role.enum';
 import { AuthorizeGuard } from 'src/common/Guards/user-auth.guard';
+import { FileUploadDto } from './dtos/fileUploadDto.dto';
 @Controller('singer')
 @ApiTags('Singer')
 export class SingerController {
     constructor(private singerService:SingerService){}
 
     @Post('/addSinger')
-    @ApiCreatedResponse({
-        description:"done",
-    })
-    @ApiBadRequestResponse({description:' can not add singer'})
-    // @ApiConsumes('multipart/form-data')
     @UseInterceptors(FileInterceptor('image',{
         storage:diskStorage({
             destination:'./files/singer',
             filename:editFile
         })
     }))
-    async addSinger(@Body() createSingerDto:CreateSingerDto,@UploadedFile() image:any):Promise<InsertResult>{
-        return await this.singerService.createSinger(createSingerDto,image.path)
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({type: CreateSingerDto})
+    async addSinger(@Body() createSingerDto:CreateSingerDto,@UploadedFile() file:any):Promise<InsertResult>{
+        return await this.singerService.createSinger(createSingerDto,file.path)
     }
 
-
-    
     @Patch('updateSinger/:id')
-    async updateSinger(@Param('id') singerId:number,@Body() updateSingerDto:UpdateSingerDto):Promise<UpdateResult>{
-        return await this.singerService.updateSingerById(singerId,updateSingerDto)
+    @UseInterceptors(FileInterceptor('image',{
+        storage:diskStorage({
+            destination:'./files/singer',
+            filename:editFile
+        })
+    }))
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({type:UpdateSingerDto})
+    async updateSinger(@Param('id') singerId:number,@Body() updateSingerDto:UpdateSingerDto,@UploadedFile() file:any):Promise<UpdateResult>{
+        return await this.singerService.updateSingerById(singerId,updateSingerDto,file.path)
     }
 
     @Delete('deleteSinger/:id')

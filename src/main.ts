@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { WinstonModule } from 'nest-winston';
 import { Transport } from 'src/logger/winston.logger';
 import { ValidationPipe } from '@nestjs/common';
+import { createDocument } from './swagger/swagger';
 
 
 
@@ -15,24 +16,7 @@ async function bootstrap() {
   });
   app.setGlobalPrefix('api')
 
-  const option=new DocumentBuilder()
-  .setTitle('Music Application Api')
-  .setDescription('all api in music application')
-  .setVersion('1.0')
-  .build()
-
-  const document=SwaggerModule.createDocument(app,option);
-  SwaggerModule.setup('api',app,document)
-
-   const songOption=new DocumentBuilder()
-   .setTitle('Music Application, song api')
-   .setDescription('the song api')
-   .setVersion('1.0')
-   .addTag('song')
-   .build()
-
-   const songdocument=SwaggerModule.createDocument(app,songOption)
-   SwaggerModule.setup('api/song',app,songdocument)
+  SwaggerModule.setup('api',app,createDocument(app))
 
   app.useGlobalPipes(new ValidationPipe());
 

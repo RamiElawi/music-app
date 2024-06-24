@@ -6,8 +6,10 @@ import { User } from "../auth/entities/user.entity";
 import { ProfileService } from "./profile.service";
 import {diskStorage} from 'multer'
 import { editFile } from "src/helpers/handlingFile.helper";
+import { ApiTags } from "@nestjs/swagger";
 
 @Controller('profile')
+@ApiTags('profile')
 export class ProfileController {
     constructor(private readonly profileService:ProfileService){}
 

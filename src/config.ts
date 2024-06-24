@@ -18,19 +18,19 @@ export const  config ={
         port:4200,
         endPoints:['auth/resetPassword','auth/verifiedEmail']
     },
-    // OAuthGoogle:{
-    //     GOOGLE_CLIENT_ID:'',
-    //     GOOGLE_CLIENT_SECRET:'',
-    //     CALL_BACK_URL:'http://localhost:3000/api/auth/google/callback',
-    //     SCOPE:['email','profile']
-    // },
-    // OAuthFacebook:{
-    //     FACEBOOK_CLIENT_ID:'',
-    //     FACEBOOK_SECRET_ID:'',
-    //     CALL_BACK_URL:'http://localhost:3000/api/auth/facebook/callback',
-    //     SCOPE:['email']
+    OAuthGoogle:{
+        GOOGLE_CLIENT_ID:'',
+        GOOGLE_CLIENT_SECRET:'',
+        CALL_BACK_URL:'http://localhost:3000/api/auth/google/callback',
+        SCOPE:['email','profile']
+    },
+    OAuthFacebook:{
+        FACEBOOK_CLIENT_ID:'',
+        FACEBOOK_SECRET_ID:'',
+        CALL_BACK_URL:'http://localhost:3000/api/auth/facebook/callback',
+        SCOPE:['email']
 
-    // }
+    }
 }
 
 

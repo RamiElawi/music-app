@@ -9,8 +9,10 @@ import { User } from "./entities/user.entity";
 import { Profile } from "../profile/entities/profile.entity";
 import { Favorite } from "../favorite/entities/favorite.entity";
 import { AuthGuard } from "@nestjs/passport";
+import { ApiBody, ApiTags } from "@nestjs/swagger";
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
 
     constructor(private readonly authService:AuthService){}
@@ -34,6 +36,12 @@ export class AuthController {
     }
 
     @Get('eamil/forgotPassword')
+    @ApiBody({
+        type: 'string',
+        schema:{
+            title:'email'
+        }
+      })
     async forgotPassword(@Body() email:string){
         return await this.authService.sendEmailForgottenPassword(email)
     }

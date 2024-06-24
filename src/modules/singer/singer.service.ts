@@ -1,4 +1,4 @@
-import {BadRequestException, Injectable ,NotFoundException} from '@nestjs/common'
+import {BadRequestException, Injectable ,NotFoundException, UseInterceptors} from '@nestjs/common'
 import { SingerRepository } from './singer.repository'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateSingerDto } from './dtos/createSingerDto.dto'
@@ -7,6 +7,7 @@ import { Singer } from './entities/singer.entity'
 import { artistType } from 'src/common/enums/artist.enum'
 import { gender } from 'src/common/enums/gender.enum'
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm'
+
 @Injectable()
 export class SingerService{
     constructor(
@@ -25,6 +26,7 @@ export class SingerService{
         return await this.singerRepository.getSingerByName(name);
     }
 
+   
     async createSinger(createSingerDto:CreateSingerDto,image:string):Promise<InsertResult>{
         const singer=await this.getSingerByName(createSingerDto.name);
         if(singer) throw new BadRequestException("this singer is already exist");
@@ -35,11 +37,11 @@ export class SingerService{
         return this.singerRepository.getSingers(limit,skip);
     }
 
-    async updateSingerById(singerId: number,updateSingerDto:UpdateSingerDto):Promise<UpdateResult>{
+    async updateSingerById(singerId: number,updateSingerDto:UpdateSingerDto,image:string):Promise<UpdateResult>{
         await this.getSingerId(singerId)
         const singer =await this.getSingerByName(updateSingerDto.name)
         if(singer) throw new BadRequestException('this singer is already exist')
-        return this.singerRepository.updateSinger(singerId,updateSingerDto)
+        return this.singerRepository.updateSinger(singerId,updateSingerDto,image)
     }
 
     async deleteSingerById(singerId:number):Promise<DeleteResult>{

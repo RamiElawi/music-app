@@ -35,10 +35,11 @@ export class SingerRepository extends Repository<Singer>{
     }
 
     async createSingerRe(createSingerDto:CreateSingerDto,image:string):Promise<InsertResult>{
+        const imagePath=`http://localhost:8000/${image}`;
         const singer=await dataSource.createQueryBuilder()
         .insert()
         .into(Singer)
-        .values([{...createSingerDto,image}])
+        .values([{...createSingerDto,image:imagePath}])
         .execute()
         return singer;
     }
@@ -63,11 +64,12 @@ export class SingerRepository extends Repository<Singer>{
     }
 
 
-    async updateSinger(singerId:number,updateSingerDto:UpdateSingerDto):Promise<UpdateResult>{
+    async updateSinger(singerId:number,updateSingerDto:UpdateSingerDto,image:string):Promise<UpdateResult>{
+        const imagePath=`http://localhost:8000/${image}`
         return await  dataSource
         .createQueryBuilder()
         .update(Singer)
-        .set({...updateSingerDto})
+        .set({...updateSingerDto,imagePath})
         .where("singers.id = :singerId",{singerId})
         .execute()
     }
